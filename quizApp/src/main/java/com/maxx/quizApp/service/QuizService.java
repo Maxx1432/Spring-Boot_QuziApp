@@ -54,13 +54,22 @@ public class QuizService {
         List<Question> questions = quiz.getQuestions();
 
         int right =0;
-        int i= 0;
-        for(Response response : responses){
-            if(response.getResponse().equals(questions.get(i).getRightAnswer()))
-                right++;
+         int i= 0;
+        
+       Map<Integer, Question> questionMap = new HashMap<>();
+	    for (Question question : questions) {
+	        questionMap.put(question.getId(), question);
+	    }
 
-            i++;
-        }
+	    // Iterate through the responses
+	    for (Response response : responses) {
+	        // Retrieve the corresponding question using the response's question ID
+	        Question question = questionMap.get(response.getId());
+	        if (question != null && response.getResponse().equals(question.getRightAnswer())) {
+	            right++; // Increment the correct response count
+	        }
+	    }
+
         return new ResponseEntity<>(right,HttpStatus.OK);
     }
 }
