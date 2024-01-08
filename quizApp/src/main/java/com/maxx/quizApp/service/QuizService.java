@@ -11,9 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class QuizService {
@@ -52,6 +50,11 @@ public class QuizService {
     public ResponseEntity<Integer> calculateResult(Integer id, List<Response> responses) {
         Quiz quiz = quizDao.findById(id).get();
         List<Question> questions = quiz.getQuestions();
+        Map<Integer, String> ansMap = new HashMap<>();
+        for(Question qus : questions)
+        {
+            ansMap.put(qus.getId(),qus.getRightAnswer());
+        }
 
         int right =0;
          int i= 0;
